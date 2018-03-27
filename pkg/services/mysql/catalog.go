@@ -18,7 +18,7 @@ func (m *module) GetCatalog() (service.Catalog, error) {
 					SupportURL:       "https://azure.microsoft.com/en-us/support/",
 				},
 				Bindable: true,
-				Tags:     []string{"Azure", "MySQL", "DBMS", "Server", "Database"},
+				Tags:     []string{"AzurePublicCloud", "MySQL", "DBMS", "Server", "Database"},
 			},
 			m.allInOneServiceManager,
 			service.NewPlan(&service.PlanProperties{
@@ -145,7 +145,7 @@ func (m *module) GetCatalog() (service.Catalog, error) {
 					SupportURL:       "https://azure.microsoft.com/en-us/support/",
 				},
 				Bindable: false,
-				Tags:     []string{"Azure", "MySQL", "DBMS", "Server", "Database"},
+				Tags:     []string{"AzurePublicCloud", "MySQL", "DBMS", "Server", "Database"},
 			},
 			m.dbmsManager,
 			service.NewPlan(&service.PlanProperties{
@@ -272,7 +272,7 @@ func (m *module) GetCatalog() (service.Catalog, error) {
 					SupportURL:       "https://azure.microsoft.com/en-us/support/",
 				},
 				Bindable: true,
-				Tags:     []string{"Azure", "MySQL", "Database"},
+				Tags:     []string{"AzurePublicCloud", "AzureChinaCloud", "MySQL", "Database"},
 			},
 			m.databaseManager,
 			service.NewPlan(&service.PlanProperties{

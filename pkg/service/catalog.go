@@ -9,7 +9,7 @@ import (
 // service/plans offered by a service module or by the entire broker.
 type Catalog interface {
 	ToJSON() ([]byte, error)
-	GetServices() []Service
+	GetServices(environmentName string) []Service
 	GetService(serviceID string) (Service, bool)
 }
 
@@ -52,6 +52,7 @@ type Service interface {
 	ToJSON() ([]byte, error)
 	GetID() string
 	GetName() string
+	HasTag(tag string) bool
 	IsBindable() bool
 	GetServiceManager() ServiceManager
 	GetPlans() []Plan
@@ -153,8 +154,14 @@ func (c *catalog) ToJSON() ([]byte, error) {
 }
 
 // GetServices returns all of the catalog's services
-func (c *catalog) GetServices() []Service {
-	return c.services
+func (c *catalog) GetServices(environmentName string) []Service {
+	svcs := []Service{}
+	for _, svc := range c.services {
+		if svc.HasTag(environmentName) {
+			svcs = append(svcs, svc)
+		}
+	}
+	return svcs
 }
 
 // GetService finds a service by serviceID in a catalog
@@ -227,6 +234,16 @@ func (s *service) GetID() string {
 
 func (s *service) GetName() string {
 	return s.Name
+}
+
+// hasTag returns whether Tags contain a specific tag
+func (s *service) HasTag(tag string) bool {
+	for _, t := range s.Tags {
+		if t == tag {
+			return true
+		}
+	}
+	return false
 }
 
 // IsBindable returns true if a service is bindable

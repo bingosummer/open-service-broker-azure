@@ -19,7 +19,7 @@ func (m *module) GetCatalog() (service.Catalog, error) {
 					SupportURL:       "https://azure.microsoft.com/en-us/support/",
 				},
 				Bindable: true,
-				Tags:     []string{"Azure", "PostgreSQL", "DBMS", "Server", "Database"},
+				Tags:     []string{"AzurePublicCloud", "PostgreSQL", "DBMS", "Server", "Database"},
 			},
 			m.allInOneManager,
 			service.NewPlan(&service.PlanProperties{
@@ -68,7 +68,7 @@ func (m *module) GetCatalog() (service.Catalog, error) {
 					SupportURL:       "https://azure.microsoft.com/en-us/support/",
 				},
 				Bindable: false,
-				Tags:     []string{"Azure", "PostgreSQL", "DBMS", "Server", "Database"},
+				Tags:     []string{"AzurePublicCloud", "PostgreSQL", "DBMS", "Server", "Database"},
 			},
 			m.dbmsManager,
 			service.NewPlan(&service.PlanProperties{
@@ -117,7 +117,7 @@ func (m *module) GetCatalog() (service.Catalog, error) {
 					SupportURL:       "https://azure.microsoft.com/en-us/support/",
 				},
 				Bindable: true,
-				Tags:     []string{"Azure", "PostgreSQL", "Database"},
+				Tags:     []string{"AzurePublicCloud", "PostgreSQL", "Database"},
 			},
 			m.databaseManager,
 			service.NewPlan(&service.PlanProperties{
