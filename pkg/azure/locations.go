@@ -32,6 +32,9 @@ var locations = []string{
 // IsValidLocation returns a bool indicating whether the provided location is a
 // valid one
 func IsValidLocation(location string) bool {
+	if IsAzureStackCloud() {
+		return true
+	}
 	for _, l := range locations {
 		if location == l {
 			return true
