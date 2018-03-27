@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Azure/open-service-broker-azure/pkg/azure"
 	"github.com/Azure/open-service-broker-azure/pkg/service"
 )
 
@@ -46,13 +47,24 @@ func (s *serviceManager) deleteStorageAccount(
 	if err := service.GetStructFromMap(instance.Details, &dt); err != nil {
 		return nil, nil, err
 	}
-	_, err := s.accountsClient.Delete(
-		ctx,
-		instance.ResourceGroup,
-		dt.StorageAccountName,
-	)
-	if err != nil {
-		return nil, nil, fmt.Errorf("error deleting storage account: %s", err)
+	if azure.IsAzureStackCloud() {
+		_, err := s.accountsAzureStackClient.Delete(
+			ctx,
+			instance.ResourceGroup,
+			dt.StorageAccountName,
+		)
+		if err != nil {
+			return nil, nil, fmt.Errorf("error deleting storage account: %s", err)
+		}
+	} else {
+		_, err := s.accountsClient.Delete(
+			ctx,
+			instance.ResourceGroup,
+			dt.StorageAccountName,
+		)
+		if err != nil {
+			return nil, nil, fmt.Errorf("error deleting storage account: %s", err)
+		}
 	}
 	return instance.Details, instance.SecureDetails, nil
 }

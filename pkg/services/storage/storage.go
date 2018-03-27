@@ -1,7 +1,8 @@
 package storage
 
 import (
-	storageSDK "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2017-10-01/storage" // nolint: lll
+	storageSDK "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2017-10-01/storage"            // nolint: lll
+	storageAzureStackSDK "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2016-01-01/storage"  // nolint: lll
 	"github.com/Azure/open-service-broker-azure/pkg/azure/arm"
 	"github.com/Azure/open-service-broker-azure/pkg/service"
 )
@@ -11,8 +12,9 @@ type module struct {
 }
 
 type serviceManager struct {
-	armDeployer    arm.Deployer
-	accountsClient storageSDK.AccountsClient
+	armDeployer              arm.Deployer
+	accountsClient           storageSDK.AccountsClient
+	accountsAzureStackClient storageAzureStackSDK.AccountsClient
 }
 
 // New returns a new instance of a type that fulfills the service.Module
@@ -20,11 +22,13 @@ type serviceManager struct {
 func New(
 	armDeployer arm.Deployer,
 	accountsClient storageSDK.AccountsClient,
+	accountsAzureStackClient storageAzureStackSDK.AccountsClient,
 ) service.Module {
 	return &module{
 		serviceManager: &serviceManager{
 			armDeployer:    armDeployer,
 			accountsClient: accountsClient,
+			accountsAzureStackClient: accountsAzureStackClient,
 		},
 	}
 }
