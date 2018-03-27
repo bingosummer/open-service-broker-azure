@@ -79,5 +79,40 @@ func (m *module) GetCatalog() (service.Catalog, error) {
 				},
 			}),
 		),
+		service.NewService(
+			&service.ServiceProperties{
+				ID:          "f2b71784-56cf-4c73-ab8b-ee6319670d31",
+				Name:        "azure-stack-storage",
+				Description: "Azure Stack Storage (Experimental)",
+				Metadata: &service.ServiceMetadata{
+					DisplayName: "Azure Stack Storage",
+					ImageURL: "https://azure.microsoft.com/svghandler/storage/" +
+						"?width=200",
+					LongDescription: "Offload the heavy lifting of datacenter management" +
+						" (Experimental)",
+					DocumentationURL: "https://docs.microsoft.com/en-us/azure/azure-stack/user/azure-stack-storage-overview",
+					SupportURL:       "https://azure.microsoft.com/en-us/support/",
+				},
+				Bindable: true,
+				Tags:     []string{"AzureStackCloud", "Storage"},
+			},
+			m.serviceManager,
+			service.NewPlan(&service.PlanProperties{
+				ID:   "96986211-df79-46a0-861a-c7c7c241992b",
+				Name: "general-purpose-storage-account",
+				Description: "Azure Stack general-purpose storage account; create your " +
+					"own containers, files, and tables within this account",
+				Free: false,
+				Extended: map[string]interface{}{
+					kindKey: storageKindGeneralPurposeStorageAcccount,
+				},
+				Metadata: &service.ServicePlanMetadata{
+					DisplayName: "General Purpose Storage Account",
+					Bullets: []string{"Azure Stack general-purpose storage account",
+						"Create your own containers, files, and tables within this account",
+					},
+				},
+			}),
+		),
 	}), nil
 }

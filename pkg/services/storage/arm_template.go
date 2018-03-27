@@ -1,7 +1,7 @@
 package storage
 
 // nolint: lll
-var armTemplateBytesGeneralPurposeStorage = []byte(`
+var armTemplateBytesAzureGeneralPurposeStorage = []byte(`
 {
 	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
@@ -64,7 +64,7 @@ var armTemplateBytesGeneralPurposeStorage = []byte(`
 `)
 
 // nolint: lll
-var armTemplateBytesBlobStorage = []byte(`
+var armTemplateBytesAzureBlobStorage = []byte(`
 {
 	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
@@ -123,6 +123,52 @@ var armTemplateBytesBlobStorage = []byte(`
 					}
 				}
 			},
+			"tags": "[parameters('tags')]"
+		}
+	],
+	"outputs": {
+		"accessKey": {
+			"type": "string",
+			"value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('name')), '2015-06-15').key1]"
+		}
+	}
+}
+`)
+
+// nolint: lll
+var armTemplateBytesAzureStackGeneralPurposeStorage = []byte(`
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"location": {
+			"type": "string"
+		},
+		"name": {
+			"type": "string"
+		},
+		"accountType": {
+			"type": "string",
+			"defaultValue": "Standard_LRS",
+			"allowedValues": [
+				"Standard_LRS",
+				"Premium_LRS"
+			]
+		},
+		"tags": {
+			"type": "object"
+		}
+	},
+	"resources": [
+		{
+			"type": "Microsoft.Storage/storageAccounts",
+			"name": "[parameters('name')]",
+			"apiVersion": "2016-01-01",
+			"location": "[parameters('location')]",
+			"sku": {
+				"name": "[parameters('accountType')]"
+			},
+			"kind": "Storage",
 			"tags": "[parameters('tags')]"
 		}
 	],

@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-sdk-for-go/storage"
+	"github.com/Azure/open-service-broker-azure/pkg/azure"
 	"github.com/Azure/open-service-broker-azure/pkg/generate"
 	"github.com/Azure/open-service-broker-azure/pkg/service"
 	uuid "github.com/satori/go.uuid"
@@ -93,11 +94,18 @@ func (s *serviceManager) deployARMTemplate(
 	}
 
 	var armTemplateBytes []byte
-	switch storeKind {
-	case storageKindGeneralPurposeStorageAcccount:
-		armTemplateBytes = armTemplateBytesGeneralPurposeStorage
-	case storageKindBlobStorageAccount, storageKindBlobContainer:
-		armTemplateBytes = armTemplateBytesBlobStorage
+	if azure.IsAzureStackCloud() {
+		switch storeKind {
+		case storageKindGeneralPurposeStorageAcccount:
+			armTemplateBytes = armTemplateBytesAzureStackGeneralPurposeStorage
+		}
+	} else {
+		switch storeKind {
+		case storageKindGeneralPurposeStorageAcccount:
+			armTemplateBytes = armTemplateBytesAzureGeneralPurposeStorage
+		case storageKindBlobStorageAccount, storageKindBlobContainer:
+			armTemplateBytes = armTemplateBytesAzureBlobStorage
+		}
 	}
 	armTemplateParameters := map[string]interface{}{
 		"name": dt.StorageAccountName,
