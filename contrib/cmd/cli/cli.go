@@ -32,6 +32,10 @@ func main() {
 			Name:  flagsPassword,
 			Usage: "specify a password for authenticating to the broker",
 		},
+		cli.StringFlag{
+			Name:  flagsEnvironment,
+			Usage: "specify an environment string for the Azure Cloud",
+		},
 	}
 	app.Commands = []cli.Command{
 		{
